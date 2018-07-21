@@ -10,5 +10,5 @@ io.on('connection', client => {
 })
 
 const port = 8000
-io.listen(8000)
+io.listen(port)
 console.log('listing on port ', port)
