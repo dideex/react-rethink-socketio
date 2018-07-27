@@ -31,7 +31,7 @@ r.connect({
     client.on("createDrawing", ({ name }) => {
       createDrawing({ connection, name });
     });
-    clinet.on('subscribeToDrawings', () => subscribeToDrawings({
+    client.on('subscribeToDrawings', () => subscribeToDrawings({
       client, connection
     }))
   });
