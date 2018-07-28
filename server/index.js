@@ -8,16 +8,16 @@ function createDrawing({ connection, name }) {
       timestamp: new Date()
     })
     .run(connection)
-    .then(() => conole.log("created a drawing witn name", name));
+    .then(() => console.log("created a drawing witn name", name));
 }
 
 function subscribeToDrawings({ client, connection }) {
   r.table("drawings")
-    .changes({ include_inital: true })
+    .changes({ include_initial: true })
     .run(connection)
     .then(cursor => {
       cursor.each((_, drawingsRow) =>
-        client.emit("drawing", drawingsRow.new_van)
+        client.emit("drawing", drawingsRow.new_val)
       );
     });
 }

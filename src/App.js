@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import DrawingForm from './DrawingForm';
+import DrawingList from './DrawingList';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
           <h2>Our awesome drawing app</h2>
         </div>
         <DrawingForm/>
+        <DrawingList/>
       </div>
     );
   }
