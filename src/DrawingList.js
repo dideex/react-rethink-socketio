@@ -19,6 +19,7 @@ class DrawingList extends Component {
     console.log(" LOG ___ this.state.drawings ", this.state.drawings );
     const drawings = this.state.drawings.map(drawing =>(
       <li
+        onClick={() => this.props.selectDrawing(drawing)}
         className="DrawingList-item"
         key={drawing.id}
       > {drawing.name} </li>
