@@ -10,7 +10,12 @@ function createDrawing(name) {
   socket.emit('createDrawing', { name })
 }
 
+function publishLine({drawingId, line}) {
+  socket.emit('publishLine', {drawingId, ...line})
+}
+
 export {
   subscribeToDrawings,
-  createDrawing
+  createDrawing,
+  publishLine
 }

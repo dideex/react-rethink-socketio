@@ -1,6 +1,13 @@
 const r = require("rethinkdb");
 const io = require("socket.io")();
 
+function handleLinePublish({ connection, line }) {
+  console.log(" LOG ___ 'saveing line to db ");
+  r.table("lines")
+    .insert({ ...line, timestamp: new Date() })
+    .run(connection);
+}
+
 function createDrawing({ connection, name }) {
   r.table("drawings")
     .insert({
@@ -31,9 +38,18 @@ r.connect({
     client.on("createDrawing", ({ name }) => {
       createDrawing({ connection, name });
     });
-    client.on('subscribeToDrawings', () => subscribeToDrawings({
-      client, connection
-    }))
+    client.on("subscribeToDrawings", () =>
+      subscribeToDrawings({
+        client,
+        connection
+      })
+    );
+    client.on("publishLine", line =>
+      handleLinePublish({
+        line,
+        connection
+      })
+    );
   });
 });
 
