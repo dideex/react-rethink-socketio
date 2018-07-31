@@ -14,8 +14,15 @@ function publishLine({drawingId, line}) {
   socket.emit('publishLine', {drawingId, ...line})
 }
 
+function subscribeToDrawingLines(drawingId, cb) {
+  socket.on(`drawingLine:${drawingId}`, line => cb(line))
+  socket.emit('subscribeToDrawingLines', drawingId)
+  console.log(" api ___ drawingId ", drawingId );
+}
+
 export {
   subscribeToDrawings,
   createDrawing,
-  publishLine
+  publishLine,
+  subscribeToDrawingLines
 }

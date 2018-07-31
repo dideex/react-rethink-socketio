@@ -29,6 +29,18 @@ function subscribeToDrawings({ client, connection }) {
     });
 }
 
+function subscribeToDrawingLines({client, connection, drawingId}) {
+  console.log(" LOG ___ subscribeToDrawingLines " );
+  return r.table('lines')
+    .filter(r.row('drawingId').eq(drawingId))
+    .changes({include_initial: true})
+    .run(connection)
+    .then(cursor => {
+      cursor.each((_, lineRow) => client.emit(`drawingLine:${drawingId}`, lineRow.new_val))
+    })
+
+}
+
 r.connect({
   host: "localhost",
   port: 28015,
@@ -50,6 +62,9 @@ r.connect({
         connection
       })
     );
+    client.on('subscribeToDrawingLines', drawingId => {
+      subscribeToDrawingLines({client, connection, drawingId})
+    })
   });
 });
 
