@@ -1,6 +1,12 @@
+const http = require('http');
 const r = require("rethinkdb");
-const io = require("socket.io")();
+const server = http.createServer(handler)
+const io = require("socket.io")(server);
 
+function handler(req, res) {
+  res.writeHead(200);
+  res.end('Hello Http');
+}
 function handleLinePublish({ connection, line }) {
   console.log(" LOG ___ 'saveing line to db ");
   r.table("lines")
