@@ -11,6 +11,7 @@ class App extends Component {
 
   state = {
     timestamp: 'No timestamp yet',
+    selectedDrawing: null
   }
 
   selectDrawing = drawing => this.setState({selectedDrawing: drawing})
@@ -27,7 +28,8 @@ class App extends Component {
 
     if(this.state.selectedDrawing) {
       ctrl = (
-        <Drawing 
+        <Drawing
+          click={() => this.setState({selectedDrawing: null})}
           drawing={this.state.selectedDrawing}
           key={this.state.selectedDrawing.id}
         />
