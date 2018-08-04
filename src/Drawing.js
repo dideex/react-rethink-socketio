@@ -10,7 +10,9 @@ class Drawing extends Component {
 
   componentDidMount() {
     subscribeToDrawingLines(this.props.drawing.id, linesEvent => {
-      this.setState(({ lines }) => ({ lines: [...lines, ...linesEvent.lines] }));
+      this.setState(({ lines }) => ({
+        lines: [...lines, ...linesEvent.lines]
+      }));
     });
   }
 
@@ -21,8 +23,15 @@ class Drawing extends Component {
   render() {
     return this.props.drawing ? (
       <div className="Drawing">
-        <div className="Drawing-title">{this.props.drawing.name}</div>
-        <Canvas drawingEnabled={true} onDraw={this.handleDraw} lines={this.state.lines}/>
+        <div className="Drawing-title" >
+          {this.props.drawing.name}
+          ({this.state.lines.length})
+        </div>
+        <Canvas
+          drawingEnabled={true}
+          onDraw={this.handleDraw}
+          lines={this.state.lines}
+        />
       </div>
     ) : null;
   }
