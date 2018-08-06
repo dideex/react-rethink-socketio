@@ -7,11 +7,12 @@ function handler(req, res) {
   res.writeHead(200);
   res.end('Hello Http');
 }
-function handleLinePublish({ connection, line }) {
+function handleLinePublish({ connection, line, callback }) {
   console.log(" LOG ___ 'saveing line to db ");
   r.table("lines")
     .insert({ ...line, timestamp: new Date() })
-    .run(connection);
+    .run(connection)
+    .then(callback)
 }
 
 function createDrawing({ connection, name }) {
@@ -63,18 +64,22 @@ r.connect({
     client.on("createDrawing", ({ name }) => {
       createDrawing({ connection, name });
     });
+
     client.on("subscribeToDrawings", () =>
       subscribeToDrawings({
         client,
         connection
       })
     );
-    client.on("publishLine", line =>
+
+    client.on("publishLine", (line, callback) =>
       handleLinePublish({
         line,
-        connection
+        connection,
+        callback
       })
     );
+
     client.on('subscribeToDrawingLines', ({drawingId, from}) => {
       subscribeToDrawingLines({client, connection, drawingId, from})
     })
